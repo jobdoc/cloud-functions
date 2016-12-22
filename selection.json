@@ -1,0 +1,19 @@
+{
+  "name": "sink (string)",
+  "location": "master bathroom (string)",
+  "plan": "Plan (plan)",
+  "status": "ordered (enum one of `outstanding` | `choices offered` | `made` | `ordered`)",
+  "allowance": 300,
+  "selection": "Product (product)",
+  "choices": [
+    "Product (product)"
+  ],
+  "activity": [
+    {
+      "user": "Zach Bornstein (string)",
+      "action": "changed status to ordered (string)"
+    }
+  ],
+  "_date_created": "UTC (datetime)",
+  "_last_modified": "UTC (datetime)"
+}
