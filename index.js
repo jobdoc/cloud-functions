@@ -1,51 +1,77 @@
-var selections = require('./selections');
+var createApi = require('./api');
 
-exports.addSelection = function addSelection (req, res) {
-  cors(req, res);
-  if (req.body === undefined || !req.body.name || !req.body.product) {
-    res.status(400).send('No selection defined!');
-  } else {
-    // Everything is ok
-    selections.insert(req.body, _handleApiResponse(res, 201));
-  }
-};
+//////////////////////
+// Selection API
+//////////////////////
 
-exports.removeSelection = function removeSelection (req, res) {
-  cors(req, res);
-  if (!req.query || req.method !== 'DELETE') {
-    res.status(400).send('No selection id defined in query!')
-  } else {
-    var id = parseInt(req.query.id, 10);
-    selections.delete(id, _handleApiResponse(res, 204));
-  }
-}
+var schema = require('./selection/selectionSchema');
+var controller = require('./selection/selectionController');
 
-exports.getSelections = function getSelections (req, res) {
-  cors(req, res);
-  selections.getAll(_handleApiResponse(res));
-}
+var api = createApi('selection', schema, controller)
 
-function cors(req, res) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+exports.addSelection = api.add
 
-  // intercept OPTIONS method
-  if ('OPTIONS' == req.method) {
-    res.send(200);
-  }
-}
+exports.removeSelection = api.remove
 
-function _handleApiResponse(res, successStatus) {
-  return function(err, payload) {
-    if (err) {
-      console.error(err);
-      res.status(err.code).send(err.message);
-      return;
-    }
-    if (successStatus) {
-      res.status(successStatus);
-    }
-    res.json(payload);
-  };
-};
+exports.getSelections = api.getAll
+
+exports.getSelection = api.get
+
+exports.updateSelection = api.update
+
+//////////////////////
+// Product API
+//////////////////////
+
+var schema = require('./product/productSchema');
+var controller = require('./product/productController');
+
+var api = createApi('product', schema, controller)
+
+exports.addProduct = api.add
+
+exports.removeProduct = api.remove
+
+exports.getProducts = api.getAll
+
+exports.getProduct = api.get
+
+exports.updateProduct = api.update
+
+//////////////////////
+// User API
+//////////////////////
+
+var schema = require('./user/userSchema');
+var controller = require('./user/userController');
+
+var api = createApi('user', schema, controller)
+
+exports.addUser = api.add
+
+exports.removeUser = api.remove
+
+exports.getUsers = api.getAll
+
+exports.getUser = api.get
+
+exports.updateUser = api.update
+
+//////////////////////
+// Comment API
+//////////////////////
+
+var schema = require('./comment/commentSchema');
+var controller = require('./comment/commentController');
+
+var api = createApi('comment', schema, controller)
+
+exports.addComment = api.add
+
+exports.removeComment = api.remove
+
+exports.getComments = api.getAll
+
+exports.getComment = api.get
+
+exports.updateComment = api.update
